@@ -5,7 +5,8 @@ var http = require("http"),
     mustache = require("./lib/mustache"),
     keyprocessor = require("./lib/keyprocessor"),
     sysinfo = require('./lib/sysinfo'),
-    port = process.env.PORT || 8888;
+    port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
 http.createServer(function(request, response) {
 
@@ -64,6 +65,6 @@ http.createServer(function(request, response) {
             response.end();
         });
     });
-}).listen(parseInt(port, 10));
+}).listen(parseInt(port, ip));
 
 console.log("Server running at\n  => http://0.0.0.0:" + port + "/\nCTRL + C to shutdown");
